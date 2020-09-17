@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юлия Кухаренок](https://up.htmlacademy.ru/javascript/21/user/1368951).
-* Наставник: `Неизвестно`.
+* Наставник: [Ксения Толстых](https://htmlacademy.ru/profile/id618277).
 
 ---
 
