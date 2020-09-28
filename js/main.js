@@ -8,6 +8,9 @@ const getRandomIntInclusive = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
+const yShift = map.querySelector(`.map__pin`).offsetHeight;
+
 const createArray = function (elementsNumber) {
   const array = [];
   for (let i = 0; i < elementsNumber; i++) {
@@ -45,9 +48,10 @@ const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__
 
 const renderPin = function (advertisment) {
   const pin = pinTemplate.cloneNode(true);
-  // pin.querySelector(`.map__pin`).style = `left: location.x, right: location.y`;
-  pin.querySelector(`.map__pin`).src = advertisment.avatar;
-  pin.querySelector(`.map__pin`).alt = advertisment.title;
+  pin.style.left = String(advertisment.location.x + xShift) + `px`;
+  pin.style.top = String(advertisment.location.y + yShift) + `px`;
+  pin.querySelector(`img`).src = advertisment.author.avatar;
+  pin.querySelector(`img`).alt = advertisment.offer.title;
   return pin;
 };
 
