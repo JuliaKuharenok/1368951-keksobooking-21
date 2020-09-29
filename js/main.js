@@ -48,8 +48,8 @@ const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__
 
 const renderPin = function (advertisment) {
   const pin = pinTemplate.cloneNode(true);
-  pin.style.left = String(advertisment.location.x + xShift) + `px`;
-  pin.style.top = String(advertisment.location.y + yShift) + `px`;
+  pin.style.left = advertisment.location.x + xShift + `px`;
+  pin.style.top = advertisment.location.y + yShift + `px`;
   pin.querySelector(`img`).src = advertisment.author.avatar;
   pin.querySelector(`img`).alt = advertisment.offer.title;
   return pin;
