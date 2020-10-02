@@ -1,34 +1,34 @@
 'use strict';
 
-const map = document.querySelector(`.map`);
+// Примеры массивов с данными
+const APARTMENT_TYPE = [`Квартира`, `Дом`, `Дворец`, `Бунгало`];
+const TIMES = [`12:00`, `13:00`, `14:00`];
+const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+const APARTMENT_FEATURES = [`.popup__feature--wifi`, `.popup__feature--dishwasher`, `.popup__feature--parking`, `.popup__feature--washer`, `.popup__feature--elevator`, `.popup__feature--conditioner`];
 
+// Функция получения рандомного числа в заданном диапазоне
 const getRandomIntInclusive = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const APARTMENT_TYPE = [`Квартира`, `Дом`, `Дворец`, `Бунгало`];
-const TIMES = [`12:00`, `13:00`, `14:00`];
-const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-// const APARTMENT_FEATURES = Array.from(advertismentCard.querySelectorAll(`.popup__feature`)); /* возвращает пустой
-
+// Функция получения рандомного элемента из массива
 const random = function (array) {
   const randomItem = array[Math.floor(Math.random() * array.length)];
   return randomItem;
 };
 
-/* const randomElements = function (array, neededElements) {
+// Функция получения нескольких рандомных элементов из массива
+const randomElements = function (array, neededElements) {
   const result = [];
   for (let i = 0; i < neededElements; i++) {
     result.push(array[Math.floor(Math.random() * array.length)]);
   }
   return result;
-};*/
+};
 
-const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
-const yShift = map.querySelector(`.map__pin`).offsetHeight;
-
+// Функция создания массива с несколькими объектами
 const createArray = function (elementsNumber) {
   const array = [];
   for (let i = 0; i < elementsNumber; i++) {
@@ -45,7 +45,7 @@ const createArray = function (elementsNumber) {
         guests: getRandomIntInclusive(1, 10),
         checkin: random(TIMES),
         checkout: random(TIMES),
-        // features: APARTMENT_FEATURES,
+        features: random(APARTMENT_FEATURES),
         description: `Описание`,
         photos: random(PHOTOS)
       },
@@ -59,11 +59,18 @@ const createArray = function (elementsNumber) {
   return array;
 };
 
-const advertisments = createArray(8);
-
+// Метки
+const map = document.querySelector(`.map`);
 const pins = map.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
+// Сдвиг относительно координат адреса
+const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
+const yShift = map.querySelector(`.map__pin`).offsetHeight;
+
+const advertisments = createArray(8);
+
+// Функция создания шаблона метки и наполнение его данными из массива
 const renderPin = function (advertisment) {
   const pin = pinTemplate.cloneNode(true);
   pin.style.left = String(advertisment.location.x + xShift) + `px`;
@@ -73,27 +80,40 @@ const renderPin = function (advertisment) {
   return pin;
 };
 
-const fragment = document.createDocumentFragment();
+// Получение n-ого количества меток по шаблону
+const pinFragment = document.createDocumentFragment();
 for (let i = 0; i < advertisments.length; i++) {
-  fragment.appendChild(renderPin(advertisments[i]));
+  pinFragment.appendChild(renderPin(advertisments[i]));
 }
-pins.appendChild(fragment);
+pins.appendChild(pinFragment);
 
+// Карточка объявления
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
 
-for (let i = 0; i < advertisments.length; i++) {
+// Функция создания шаблона карточки и наполнение его данными из массива
+const renderCard = function (advertisment) {
   const advertismentCard = cardTemplate.cloneNode(true);
-  advertismentCard.querySelector(`.popup__title`).textContent = advertisments[i].offer.title;
-  advertismentCard.querySelector(`.popup__text--address`).textContent = advertisments[i].offer.address;
-  advertismentCard.querySelector(`.popup__text--price`).textContent = advertisments[i].offer.price;
-  advertismentCard.querySelector(`.popup__type`).textContent = advertisments[i].offer.type;
-  advertismentCard.querySelector(`.popup__text--capacity`).textContent = advertisments[i].offer.rooms + ` комнаты для ` + advertisments[i].offer.guests + ` гостей`;
-  advertismentCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advertisments[i].offer.checkin + `, выезд до ` + advertisments[i].offer.checkout;
-  // advertismentCard.querySelector(`.popup__features`).content = advertisments[i].offer.features; /* не придумала как вывести именно рандомные каринки */
-  advertismentCard.querySelector(`.popup__description`).textContent = advertisments[i].offer.description;
-  advertismentCard.querySelector(`.popup__photo`).src = advertisments[i].offer.photos;
-  advertismentCard.querySelector(`.popup__avatar`).src = advertisments[i].author.avatar;
-  map.appendChild(advertismentCard);
-}
+  advertismentCard.querySelector(`.popup__title`).textContent = advertisment.offer.title;
+  advertismentCard.querySelector(`.popup__text--address`).textContent = advertisment.offer.address;
+  advertismentCard.querySelector(`.popup__text--price`).textContent = advertisment.offer.price;
+  advertismentCard.querySelector(`.popup__type`).textContent = advertisment.offer.type;
+  advertismentCard.querySelector(`.popup__text--capacity`).textContent = advertisment.offer.rooms + ` комнаты для ` + advertisment.offer.guests + ` гостей`;
+  advertismentCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advertisment.offer.checkin + `, выезд до ` + advertisment.offer.checkout;
+  advertismentCard.querySelector(`.popup__features`).removeChild(advertismentCard.querySelector(advertisment.offer.features));
+  advertismentCard.querySelector(`.popup__description`).textContent = advertisment.offer.description;
+  advertismentCard.querySelector(`.popup__photo`).src = advertisment.offer.photos;
+  advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
+  return advertismentCard;
+};
 
+// Получение разных по содержанию карточек по шаблону
+const cardFragment = document.createDocumentFragment();
+for (let i = 0; i < advertisments.length; i++) {
+  cardFragment.appendChild(renderCard(advertisments[i]));
+}
+map.appendChild(cardFragment);
+
+// Временное решение для показа карты
 map.classList.remove(`map--faded`);
+
+
