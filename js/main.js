@@ -85,10 +85,9 @@ const pinFragment = document.createDocumentFragment();
 for (let i = 0; i < advertisments.length; i++) {
   pinFragment.appendChild(renderPin(advertisments[i]));
 }
-pins.appendChild(pinFragment);
 
 // Карточка объявления
-const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
+/* const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
 
 // Функция создания шаблона карточки и наполнение его данными из массива
 const renderCard = function (advertisment) {
@@ -111,9 +110,45 @@ const cardFragment = document.createDocumentFragment();
 for (let i = 0; i < advertisments.length; i++) {
   cardFragment.appendChild(renderCard(advertisments[i]));
 }
-map.appendChild(cardFragment);
+map.appendChild(cardFragment); */
 
 // Временное решение для показа карты
-map.classList.remove(`map--faded`);
+// map.classList.remove(`map--faded`);
 
+// Неактивное состояние страницы
+// Disabled на кнопку загрузки аватара
+const photoDrop = document.querySelector(`.ad-form-header`);
+photoDrop.setAttribute(`disabled`, `disabled`);
 
+// Disabled на поля формы
+const formFieldsets = document.querySelectorAll(`.ad-form__element`);
+for (let i = 0; i < formFieldsets.length; i++) {
+  formFieldsets[i].setAttribute(`disabled`, `disabled`);
+}
+
+// Активное состояние страницы
+const getPageActive = function () {
+  // Отключаем заблокированное состояние у карты
+  map.classList.remove(`map--faded`);
+  // Отключаем заблокированное состояние у кнопки закрузки фото
+  photoDrop.removeAttribute(`disabled`, `disabled`);
+  // Отключаем заблокированное состояние у полей формы
+  for (let i = 0; i < formFieldsets.length; i++) {
+    formFieldsets[i].removeAttribute(`disabled`, `disabled`);
+  }
+  // Отрисовываем метки
+  pins.appendChild(pinFragment);
+};
+
+const mainPin = map.querySelector(`.map__pin--main`);
+mainPin.addEventListener(`mousedown`, function (evt) {
+  if (evt[`which`] === 1) {
+    getPageActive();
+  }
+});
+
+mainPin.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    getPageActive();
+  }
+});
