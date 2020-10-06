@@ -3,8 +3,10 @@
 // Примеры массивов с данными
 const APARTMENT_TYPE = [`Квартира`, `Дом`, `Дворец`, `Бунгало`];
 const TIMES = [`12:00`, `13:00`, `14:00`];
-const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-const APARTMENT_FEATURES = [`.popup__feature--wifi`, `.popup__feature--dishwasher`, `.popup__feature--parking`, `.popup__feature--washer`, `.popup__feature--elevator`, `.popup__feature--conditioner`];
+const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
+  `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+const APARTMENT_FEATURES = [`.popup__feature--wifi`, `.popup__feature--dishwasher`, `.popup__feature--parking`,
+  `.popup__feature--washer`, `.popup__feature--elevator`, `.popup__feature--conditioner`];
 
 // Функция получения рандомного числа в заданном диапазоне
 const getRandomIntInclusive = function (min, max) {
@@ -64,7 +66,13 @@ const map = document.querySelector(`.map`);
 const pins = map.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-// Сдвиг относительно координат адреса
+// Главная метка
+const MAIN_PIN_LEFT = 570;
+const MAIN_PIN_TOP = 375;
+const xShiftMain = map.querySelector(`.map__pin--main`).offsetWidth / 2;
+const yShiftMain = map.querySelector(`.map__pin--main`).offsetHeight;
+
+// Сдвиг относительно координат адреса у маленьких меток
 const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
 const yShift = map.querySelector(`.map__pin`).offsetHeight;
 
@@ -73,8 +81,8 @@ const advertisments = createArray(8);
 // Функция создания шаблона метки и наполнение его данными из массива
 const renderPin = function (advertisment) {
   const pin = pinTemplate.cloneNode(true);
-  pin.style.left = String(advertisment.location.x + xShift) + `px`;
-  pin.style.top = String(advertisment.location.y + yShift) + `px`;
+  pin.style.left = advertisment.location.x + xShift + `px`;
+  pin.style.top = advertisment.location.y + yShift + `px`;
   pin.querySelector(`img`).src = advertisment.author.avatar;
   pin.querySelector(`img`).alt = advertisment.offer.title;
   return pin;
@@ -126,6 +134,10 @@ for (let i = 0; i < formFieldsets.length; i++) {
   formFieldsets[i].setAttribute(`disabled`, `disabled`);
 }
 
+// Заполенное поле адреса
+const addressInput = document.querySelector(`#address`);
+addressInput.value = MAIN_PIN_LEFT + ` , ` + MAIN_PIN_TOP;
+
 // Активное состояние страницы
 const getPageActive = function () {
   // Отключаем заблокированное состояние у карты
@@ -136,6 +148,8 @@ const getPageActive = function () {
   for (let i = 0; i < formFieldsets.length; i++) {
     formFieldsets[i].removeAttribute(`disabled`, `disabled`);
   }
+  // Изменяем значение инпута с адресом
+  addressInput.value = (Math.round(MAIN_PIN_LEFT + xShiftMain)) + ` , ` + (MAIN_PIN_TOP + yShiftMain);
   // Отрисовываем метки
   pins.appendChild(pinFragment);
 };
@@ -152,3 +166,34 @@ mainPin.addEventListener(`keydown`, function (evt) {
     getPageActive();
   }
 });
+
+// Валидация формы: количество комнат и гостей
+const roomsInput = document.querySelector(`#room_number`);
+const guestsInput = document.querySelector(`#capacity`);
+
+// Проверка соотвествия количества комнат и количества гостей
+guestsInput.addEventListener(`change`, function () {
+  switch (roomsInput.value) {
+    case `1`:
+      if (guestsInput.value !== `1`) {
+        guestsInput.setCustomValidity(`В одной комнате можно разместить не более одного гостя`);
+      }
+      break;
+    case `2`:
+      if ((guestsInput.value === `0`) || (guestsInput.value === `3`)) {
+        guestsInput.setCustomValidity(`В двух комнатах можно разместить не более двух гостей`);
+      }
+      break;
+    case `3`:
+      if (guestsInput.value === `0`) {
+        guestsInput.setCustomValidity(`В трех комнатах можно разместить до трех гостей`);
+      }
+      break;
+    case `100`:
+      if (guestsInput.value !== `0`) {
+        guestsInput.setCustomValidity(`Сто комнат не предназначены для гостей`);
+      }
+      break;
+  }
+});
+
