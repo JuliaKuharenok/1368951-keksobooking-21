@@ -95,7 +95,7 @@ for (let i = 0; i < advertisments.length; i++) {
 }
 
 // Карточка объявления
-/* const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
+const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
 
 // Функция создания шаблона карточки и наполнение его данными из массива
 const renderCard = function (advertisment) {
@@ -118,10 +118,7 @@ const cardFragment = document.createDocumentFragment();
 for (let i = 0; i < advertisments.length; i++) {
   cardFragment.appendChild(renderCard(advertisments[i]));
 }
-map.appendChild(cardFragment); */
-
-// Временное решение для показа карты
-// map.classList.remove(`map--faded`);
+pins.appendChild(cardFragment);
 
 // Неактивное состояние страницы
 // Disabled на кнопку загрузки аватара
@@ -167,6 +164,9 @@ mainPin.addEventListener(`keydown`, function (evt) {
   }
 });
 
+// Функция для соотношения метки и карточки
+
+
 // Валидация формы: количество комнат и гостей
 const roomsInput = document.querySelector(`#room_number`);
 const guestsInput = document.querySelector(`#capacity`);
@@ -197,3 +197,45 @@ guestsInput.addEventListener(`change`, function () {
   }
 });
 
+// Валидация формы: время заезда и выезда
+const checkinTime = document.querySelector(`#timein`);
+const checkoutTime = document.querySelector(`#timeout`);
+
+checkinTime.addEventListener(`change`, function () {
+  switch (checkinTime.value) {
+    case `12:00`:
+      checkoutTime.value = `12:00`;
+      break;
+    case `13:00`:
+      checkoutTime.value = `13:00`;
+      break;
+    case `14:00`:
+      checkoutTime.value = `14:00`;
+      break;
+  }
+});
+
+// Валидация формы: тип жилья и цена за ночь
+const appartmentType = document.querySelector(`#type`);
+const priceForNight = document.querySelector(`#price`);
+
+appartmentType.addEventListener(`change`, function () {
+  switch (appartmentType.value) {
+    case `bungalow`:
+      priceForNight.min = `0`;
+      priceForNight.placeholder = `0`;
+      break;
+    case `flat`:
+      priceForNight.min = `1000`;
+      priceForNight.placeholder = `1000`;
+      break;
+    case `house`:
+      priceForNight.min = `5000`;
+      priceForNight.placeholder = `5000`;
+      break;
+    case `palace`:
+      priceForNight.min = `10000`;
+      priceForNight.placeholder = `10000`;
+      break;
+  }
+});
