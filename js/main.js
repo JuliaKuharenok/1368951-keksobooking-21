@@ -8,6 +8,10 @@ const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0
 const APARTMENT_FEATURES = [`.popup__feature--wifi`, `.popup__feature--dishwasher`, `.popup__feature--parking`,
   `.popup__feature--washer`, `.popup__feature--elevator`, `.popup__feature--conditioner`];
 
+// Начальные координаты главной метски
+const MAIN_PIN_LEFT = 570;
+const MAIN_PIN_TOP = 375;
+
 // Функция получения рандомного числа в заданном диапазоне
 const getRandomIntInclusive = function (min, max) {
   min = Math.ceil(min);
@@ -22,13 +26,13 @@ const random = function (array) {
 };
 
 // Функция получения нескольких рандомных элементов из массива
-const randomElements = function (array, neededElements) {
+/* const randomElements = function (array, neededElements) {
   const result = [];
   for (let i = 0; i < neededElements; i++) {
     result.push(array[Math.floor(Math.random() * array.length)]);
   }
   return result;
-};
+};*/
 
 // Функция создания массива с несколькими объектами
 const createArray = function (elementsNumber) {
@@ -61,14 +65,16 @@ const createArray = function (elementsNumber) {
   return array;
 };
 
-// Метки
+// Метки с обявлениями
 const map = document.querySelector(`.map`);
 const pins = map.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-// Главная метка
-const MAIN_PIN_LEFT = 570;
-const MAIN_PIN_TOP = 375;
+// Карточка объявления
+const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
+const cardFragment = document.createDocumentFragment();
+
+// Сдвиг относительно координат адреса у главной метки
 const xShiftMain = map.querySelector(`.map__pin--main`).offsetWidth / 2;
 const yShiftMain = map.querySelector(`.map__pin--main`).offsetHeight;
 
@@ -76,26 +82,19 @@ const yShiftMain = map.querySelector(`.map__pin--main`).offsetHeight;
 const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
 const yShift = map.querySelector(`.map__pin`).offsetHeight;
 
+// Массив с данными объявлений
 const advertisments = createArray(8);
 
-// Функция создания шаблона метки и наполнение его данными из массива
-const renderPin = function (advertisment) {
-  const pin = pinTemplate.cloneNode(true);
-  pin.style.left = advertisment.location.x + xShift + `px`;
-  pin.style.top = advertisment.location.y + yShift + `px`;
-  pin.querySelector(`img`).src = advertisment.author.avatar;
-  pin.querySelector(`img`).alt = advertisment.offer.title;
-  return pin;
+// Функция показа объявления
+const getAdvertismentCard = function (advertisment) {
+  cardFragment.appendChild(renderCard(advertisment));
+  pins.appendChild(cardFragment);
 };
 
-// Получение n-ого количества меток по шаблону
-const pinFragment = document.createDocumentFragment();
-for (let i = 0; i < advertisments.length; i++) {
-  pinFragment.appendChild(renderPin(advertisments[i]));
-}
-
-// Карточка объявления
-const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
+// Функция закрытия объявления
+const removeAdvertismentCard = function (advertismentCard) {
+  advertismentCard.classList.add(`hidden`);
+};
 
 // Функция создания шаблона карточки и наполнение его данными из массива
 const renderCard = function (advertisment) {
@@ -110,15 +109,36 @@ const renderCard = function (advertisment) {
   advertismentCard.querySelector(`.popup__description`).textContent = advertisment.offer.description;
   advertismentCard.querySelector(`.popup__photo`).src = advertisment.offer.photos;
   advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
+  // Добавление обработчика событий на карточку для ее закрытия
+  advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
+    removeAdvertismentCard(advertismentCard);
+  });
+  advertismentCard.querySelector(`.popup__close`).addEventListener(`keydown`, function (evt) {
+    if (evt.key === `Escape`) {
+      removeAdvertismentCard(advertismentCard);
+    }
+  });
   return advertismentCard;
 };
 
-// Получение разных по содержанию карточек по шаблону
-const cardFragment = document.createDocumentFragment();
-for (let i = 0; i < advertisments.length; i++) {
-  cardFragment.appendChild(renderCard(advertisments[i]));
-}
-pins.appendChild(cardFragment);
+// Функция создания шаблона метки и наполнение его данными из массива
+const renderPin = function (advertisment) {
+  const pin = pinTemplate.cloneNode(true);
+  pin.style.left = advertisment.location.x + xShift + `px`;
+  pin.style.top = advertisment.location.y + yShift + `px`;
+  pin.querySelector(`img`).src = advertisment.author.avatar;
+  pin.querySelector(`img`).alt = advertisment.offer.title;
+  // Добавление обработчика событий на метку для показа карточки объявления
+  pin.addEventListener(`click`, function () {
+    getAdvertismentCard(advertisment);
+  });
+  pin.addEventListener(`keydown`, function (evt) {
+    if (evt.key === `Enter`) {
+      getAdvertismentCard(advertisment);
+    }
+  });
+  return pin;
+};
 
 // Неактивное состояние страницы
 // Disabled на кнопку загрузки аватара
@@ -148,9 +168,14 @@ const getPageActive = function () {
   // Изменяем значение инпута с адресом
   addressInput.value = (Math.round(MAIN_PIN_LEFT + xShiftMain)) + ` , ` + (MAIN_PIN_TOP + yShiftMain);
   // Отрисовываем метки
+  const pinFragment = document.createDocumentFragment();
+  for (let i = 0; i < advertisments.length; i++) {
+    pinFragment.appendChild(renderPin(advertisments[i]));
+  }
   pins.appendChild(pinFragment);
 };
 
+// Переключение страницы в активное состояние
 const mainPin = map.querySelector(`.map__pin--main`);
 mainPin.addEventListener(`mousedown`, function (evt) {
   if (evt[`which`] === 1) {
@@ -163,9 +188,6 @@ mainPin.addEventListener(`keydown`, function (evt) {
     getPageActive();
   }
 });
-
-// Функция для соотношения метки и карточки
-
 
 // Валидация формы: количество комнат и гостей
 const roomsInput = document.querySelector(`#room_number`);
