@@ -113,7 +113,7 @@ const renderCard = function (advertisment) {
   advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
     removeAdvertismentCard(advertismentCard);
   });
-  advertismentCard.querySelector(`.popup__close`).addEventListener(`keydown`, function (evt) {
+  document.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Escape`) {
       removeAdvertismentCard(advertismentCard);
     }
