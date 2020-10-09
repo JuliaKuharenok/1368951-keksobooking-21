@@ -1,12 +1,15 @@
 'use strict';
 
 (function () {
-  const photoDrop = document.querySelector(`.ad-form-header`);
-  const formFieldsets = document.querySelectorAll(`.ad-form__element`);
-  const addressInput = document.querySelector(`#address`);
+  const form = document.querySelector(`.ad-form`);
+  const photoDrop = form.querySelector(`.ad-form-header`);
+  const formFieldsets = form.querySelectorAll(`.ad-form__element`);
+  const addressInput = form.querySelector(`#address`);
 
   const getPageActive = function () {
     window.pins.map.classList.remove(`map--faded`);
+
+    form.classList.remove(`ad-form--disabled`);
 
     photoDrop.removeAttribute(`disabled`, `disabled`);
 
