@@ -18,6 +18,8 @@
   const yShiftMain = map.querySelector(`.map__pin--main`).offsetHeight;
   const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
   const yShift = map.querySelector(`.map__pin`).offsetHeight;
+  let mainPinTop = 0;
+  let mainPinLeft = 0;
 
   const createArray = function (elementsNumber) {
     const array = [];
@@ -67,12 +69,54 @@
     return pin;
   };
 
+  mainPin.addEventListener(`mousedown`, function (evt) {
+    if (evt[`which`] === 1) {
+      evt.preventDefault();
+
+      let startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
+      };
+
+      const onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+
+        const shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
+      };
+
+      const onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
+
+        document.removeEventListener(`mousemove`, onMouseMove);
+        document.removeEventListener(`mouseup`, onMouseUp);
+
+        window.page.getPageActive();
+      };
+
+      document.addEventListener(`mousemove`, onMouseMove);
+      document.addEventListener(`mouseup`, onMouseUp);
+    }
+  });
+
   window.pins = {
     map: map,
     pins: pins,
     mainPin: mainPin,
     MAIN_PIN_LEFT: MAIN_PIN_LEFT,
     MAIN_PIN_TOP: MAIN_PIN_TOP,
+    mainPinTop: mainPinTop,
+    mainPinLeft: mainPinLeft,
     xShiftMain: xShiftMain,
     yShiftMain: yShiftMain,
     xShift: xShift,

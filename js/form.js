@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  const form = document.querySelector(`.ad-form`);
   const roomsInput = document.querySelector(`#room_number`);
   const guestsInput = document.querySelector(`#capacity`);
   const checkinTime = document.querySelector(`#timein`);
@@ -67,4 +68,8 @@
         break;
     }
   });
+
+  window.form = {
+    form: form
+  };
 })();

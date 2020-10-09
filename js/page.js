@@ -1,23 +1,20 @@
 'use strict';
 
 (function () {
-  const form = document.querySelector(`.ad-form`);
-  const photoDrop = form.querySelector(`.ad-form-header`);
-  const formFieldsets = form.querySelectorAll(`.ad-form__element`);
-  const addressInput = form.querySelector(`#address`);
+  const photoDrop = window.form.form.querySelector(`.ad-form-header`);
+  const formFieldsets = window.form.form.querySelectorAll(`.ad-form__element`);
+  const addressInput = window.form.form.querySelector(`#address`);
 
   const getPageActive = function () {
     window.pins.map.classList.remove(`map--faded`);
-
-    form.classList.remove(`ad-form--disabled`);
-
-    photoDrop.removeAttribute(`disabled`, `disabled`);
+    window.form.form.classList.remove(`ad-form--disabled`);
+    photoDrop.removeAttribute(`disabled`);
 
     for (let i = 0; i < formFieldsets.length; i++) {
-      formFieldsets[i].removeAttribute(`disabled`, `disabled`);
+      formFieldsets[i].removeAttribute(`disabled`);
     }
 
-    addressInput.value = (Math.round(window.pins.MAIN_PIN_LEFT + window.pins.xShiftMain)) + ` , ` + (window.pins.MAIN_PIN_TOP + window.pins.yShiftMain);
+    addressInput.value = (Math.round(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
 
     const pinFragment = document.createDocumentFragment();
     for (let i = 0; i < window.pins.advertisments.length; i++) {
@@ -34,9 +31,7 @@
 
   addressInput.value = window.pins.MAIN_PIN_LEFT + ` , ` + window.pins.MAIN_PIN_TOP;
 
-  window.pins.mainPin.addEventListener(`mousedown`, function (evt) {
-    if (evt[`which`] === 1) {
-      getPageActive();
-    }
-  });
+  window.page = {
+    getPageActive: getPageActive
+  };
 })();
