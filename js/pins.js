@@ -18,8 +18,6 @@
   const yShiftMain = map.querySelector(`.map__pin--main`).offsetHeight;
   const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
   const yShift = map.querySelector(`.map__pin`).offsetHeight;
-  let mainPinTop = 0;
-  let mainPinLeft = 0;
 
   const createArray = function (elementsNumber) {
     const array = [];
@@ -115,8 +113,6 @@
     mainPin: mainPin,
     MAIN_PIN_LEFT: MAIN_PIN_LEFT,
     MAIN_PIN_TOP: MAIN_PIN_TOP,
-    mainPinTop: mainPinTop,
-    mainPinLeft: mainPinLeft,
     xShiftMain: xShiftMain,
     yShiftMain: yShiftMain,
     xShift: xShift,

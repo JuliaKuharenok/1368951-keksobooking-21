@@ -23,15 +23,22 @@
     window.pins.pins.appendChild(pinFragment);
   };
 
-  photoDrop.setAttribute(`disabled`, `disabled`);
+  const getPageDisabled = function () {
+    window.pins.map.classList.add(`map--faded`);
+    window.form.form.classList.add(`ad-form--disabled`);
+    window.form.form.reset();
+    photoDrop.setAttribute(`disabled`, `disabled`);
 
-  for (let i = 0; i < formFieldsets.length; i++) {
-    formFieldsets[i].setAttribute(`disabled`, `disabled`);
-  }
-
-  addressInput.value = window.pins.MAIN_PIN_LEFT + ` , ` + window.pins.MAIN_PIN_TOP;
+    for (let i = 0; i < formFieldsets.length; i++) {
+      formFieldsets[i].setAttribute(`disabled`, `disabled`);
+    }
+    window.pins.mainPin.style.left = window.pins.MAIN_PIN_LEFT + `px`;
+    window.pins.mainPin.style.top = window.pins.MAIN_PIN_TOP + `px`;
+    addressInput.value = window.pins.MAIN_PIN_LEFT + ` , ` + window.pins.MAIN_PIN_TOP;
+  };
 
   window.page = {
-    getPageActive: getPageActive
+    getPageActive: getPageActive,
+    getPageDisabled: getPageDisabled
   };
 })();
