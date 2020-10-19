@@ -89,15 +89,28 @@
     window.page.getPageDisabled();
   });
 
+  const removeMessage = function (messageType) {
+    document.addEventListener(`click`, function () {
+      window.pins.map.removeChild(messageType);
+    });
+    document.addEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        window.pins.map.removeChild(messageType);
+      }
+    });
+  };
+
   const successHendler = function () {
     window.page.getPageDisabled();
     const successMessage = successMessageTemplate.cloneNode(true);
-    document.querySelector(`.map`).appendChild(successMessage);
+    window.pins.map.appendChild(successMessage);
+    removeMessage(successMessage);
   };
 
   const errorHendler = function () {
     const errorMessage = errorMessageTemplate.cloneNode(true);
-    document.querySelector(`.map`).appendChild(errorMessage);
+    window.pins.map.appendChild(errorMessage);
+    removeMessage(errorMessage);
   };
 
   form.addEventListener(`submit`, function (evt) {

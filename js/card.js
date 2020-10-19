@@ -4,6 +4,7 @@
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
   const cardFragment = document.createDocumentFragment();
 
+
   const removeAdvertismentCard = function (advertismentCard) {
     advertismentCard.classList.add(`hidden`);
   };
@@ -31,11 +32,18 @@
     return advertismentCard;
   };
 
-  window.card = {
-    getAdvertismentCard: function (advertisment) {
-      cardFragment.appendChild(renderCard(advertisment));
-      window.pins.pins.appendChild(cardFragment);
+  const getAdvertismentCard = function (advertisment) {
+    const previousCards = window.pins.map.querySelectorAll(`.map__card`);
+    for (let i = 0; i < previousCards.length; i++) {
+      removeAdvertismentCard(previousCards[i]);
     }
+    cardFragment.appendChild(renderCard(advertisment));
+    window.pins.pins.appendChild(cardFragment);
+  };
+
+  window.card = {
+    getAdvertismentCard: getAdvertismentCard,
+    removeAdvertismentCard: removeAdvertismentCard
   };
 
 })();

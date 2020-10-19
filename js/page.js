@@ -35,6 +35,11 @@
     window.pins.mainPin.style.left = window.pins.MAIN_PIN_LEFT + `px`;
     window.pins.mainPin.style.top = window.pins.MAIN_PIN_TOP + `px`;
     addressInput.value = window.pins.MAIN_PIN_LEFT + ` , ` + window.pins.MAIN_PIN_TOP;
+
+    const pinsCollection = window.pins.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    for (let i = 0; i < pinsCollection.length; i++) {
+      window.pins.pins.removeChild(pinsCollection[i]);
+    }
   };
 
   window.page = {

@@ -11,7 +11,7 @@
     const xhr = new XMLHttpRequest();
     xhr.resposeType = `json`;
 
-    xhr.addEventListener(`load`, function () {
+    xhr.addEventListener(`upload`, function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
