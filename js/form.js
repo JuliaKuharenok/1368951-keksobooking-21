@@ -113,8 +113,8 @@
     removeMessage(errorMessage);
   };
 
-  form.addEventListener(`submit`, function (evt) {
-    window.upload(new FormData(form), successHendler(), errorHendler());
+  form.addEventListener(`submit`, (evt) => {
+    window.upload(new FormData(form), successHendler, errorHendler);
     evt.preventDefault();
   });
 

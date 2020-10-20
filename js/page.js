@@ -16,11 +16,14 @@
 
     addressInput.value = (Math.round(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
 
-    const pinFragment = document.createDocumentFragment();
-    for (let i = 0; i < window.pins.advertisments.length; i++) {
-      pinFragment.appendChild(window.pins.renderPin(window.pins.advertisments[i]));
-    }
-    window.pins.pins.appendChild(pinFragment);
+    window.load (function (advertisments) {
+      const pinFragment = document.createDocumentFragment();
+      for (let i = 0; i < advertisments.length - 1; i++) {
+        pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
+      }
+      window.pins.pins.appendChild(pinFragment);
+    });
+
   };
 
   const getPageDisabled = function () {
