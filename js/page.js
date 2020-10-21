@@ -16,14 +16,7 @@
 
     addressInput.value = (Math.round(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
 
-    window.load (function (advertisments) {
-      const pinFragment = document.createDocumentFragment();
-      for (let i = 0; i < advertisments.length - 1; i++) {
-        pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
-      }
-      window.pins.pins.appendChild(pinFragment);
-    });
-
+    window.load(window.pins.showPins, window.form.errorHendler);
   };
 
   const getPageDisabled = function () {
@@ -43,7 +36,13 @@
     for (let i = 0; i < pinsCollection.length; i++) {
       window.pins.pins.removeChild(pinsCollection[i]);
     }
+
+    if (window.pins.map.querySelector('.map__card')) {
+      window.card.removeAdvertismentCard(window.pins.map.querySelector(`.map__card`));
+    } 
   };
+
+  getPageDisabled();
 
   window.page = {
     getPageActive: getPageActive,

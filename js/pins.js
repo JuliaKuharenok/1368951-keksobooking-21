@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  const MAIN_PIN_LEFT = 570;
-  const MAIN_PIN_TOP = 375;
-
   const map = document.querySelector(`.map`);
   const pins = map.querySelector(`.map__pins`);
   const mainPin = map.querySelector(`.map__pin--main`);
@@ -12,6 +9,9 @@
   const yShiftMain = map.querySelector(`.map__pin--main`).offsetHeight;
   const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
   const yShift = map.querySelector(`.map__pin`).offsetHeight;
+
+  const MAIN_PIN_LEFT = 550;
+  const MAIN_PIN_TOP = 375;
 
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
@@ -28,6 +28,14 @@
       }
     });
     return pin;
+  };
+
+  const showPins = function (advertisments) {
+    const pinFragment = document.createDocumentFragment();
+    for (let i = 0; i < advertisments.length - 1; i++) {
+      pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
+    }
+    window.pins.pins.appendChild(pinFragment);
   };
 
   mainPin.addEventListener(`mousedown`, function (evt) {
@@ -80,6 +88,7 @@
     yShiftMain: yShiftMain,
     xShift: xShift,
     yShift: yShift,
-    renderPin: renderPin
+    renderPin: renderPin,
+    showPins: showPins
   };
 })();

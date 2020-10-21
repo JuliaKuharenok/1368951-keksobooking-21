@@ -119,6 +119,7 @@
   });
 
   window.form = {
-    form: form
+    form: form,
+    errorHendler: errorHendler
   };
 })();
