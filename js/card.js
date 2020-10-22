@@ -17,9 +17,25 @@
     advertismentCard.querySelector(`.popup__type`).textContent = advertisment.offer.type;
     advertismentCard.querySelector(`.popup__text--capacity`).textContent = advertisment.offer.rooms + ` комнаты для ` + advertisment.offer.guests + ` гостей`;
     advertismentCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advertisment.offer.checkin + `, выезд до ` + advertisment.offer.checkout;
-    /* advertismentCard.querySelector(`.popup__features`).removeChild(advertismentCard.querySelector(advertisment.offer.features));*/
+
+    const features = advertismentCard.querySelectorAll(`.popup__feature`);
+    console.log(features);
+    const realFeatures = advertisment.offer.features;
+    console.log(realFeatures);
+     for (let i = 0; i < features.length; i++) {
+      for (let j = 0; j < realFeatures.length; j++) {
+        if (!features[i].classList.contains(`popup__feature--` + realFeatures[j])) {
+          //features[i].classList.add(`hidden`);
+        }
+      }
+    }
+
+    if (!features[2].classList.contains(`popup__feature--` + realFeatures[2])) {
+      console.log(features[2]);
+    }
+
     advertismentCard.querySelector(`.popup__description`).textContent = advertisment.offer.description;
-    /* advertismentCard.querySelector(`.popup__photo`).src = advertisment.offer.photos;*/
+    advertismentCard.querySelector(`.popup__photo`).src = advertisment.offer.photos[0];
     advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
     advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
       removeAdvertismentCard(advertismentCard);

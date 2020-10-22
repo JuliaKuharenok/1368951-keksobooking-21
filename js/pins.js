@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  const MAIN_PIN_TOP = 375;
+
   const map = document.querySelector(`.map`);
   const pins = map.querySelector(`.map__pins`);
   const mainPin = map.querySelector(`.map__pin--main`);
@@ -10,8 +12,11 @@
   const xShift = map.querySelector(`.map__pin`).offsetWidth / 2;
   const yShift = map.querySelector(`.map__pin`).offsetHeight;
 
-  const MAIN_PIN_LEFT = 550;
-  const MAIN_PIN_TOP = 375;
+  let mainPinLeft = 570;
+
+  if (document.documentElement.clientWidth < 1200) {
+    mainPinLeft = Math.round((document.documentElement.clientWidth / 2) - xShiftMain);
+  } 
 
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
@@ -82,7 +87,7 @@
     map: map,
     pins: pins,
     mainPin: mainPin,
-    MAIN_PIN_LEFT: MAIN_PIN_LEFT,
+    mainPinLeft: mainPinLeft,
     MAIN_PIN_TOP: MAIN_PIN_TOP,
     xShiftMain: xShiftMain,
     yShiftMain: yShiftMain,
