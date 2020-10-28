@@ -37,7 +37,7 @@
 
   const showPins = function (advertisments) {
     const pinFragment = document.createDocumentFragment();
-    for (let i = 0; i < advertisments.length - 1; i++) {
+    for (let i = 0; i < 5; i++) {
       pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
     }
     window.pins.pins.appendChild(pinFragment);
