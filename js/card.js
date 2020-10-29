@@ -7,6 +7,7 @@
 
   const removeAdvertismentCard = function (advertismentCard) {
     advertismentCard.classList.add(`hidden`);
+    document.querySelector(`.map__pin--active`).classList.remove(`map__pin--active`);
   };
 
   const renderCard = function (advertisment) {

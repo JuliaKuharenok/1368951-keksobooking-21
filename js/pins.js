@@ -25,14 +25,23 @@
     pin.querySelector(`img`).src = advertisment.author.avatar;
     pin.querySelector(`img`).alt = advertisment.offer.title;
     pin.addEventListener(`click`, function () {
+      pin.classList.add(`map__pin--active`);
       window.card.getAdvertismentCard(advertisment);
     });
     pin.addEventListener(`keydown`, function (evt) {
       if (evt.key === `Enter`) {
+        pin.classList.add(`map__pin--active`);
         window.card.getAdvertismentCard(advertisment);
       }
     });
     return pin;
+  };
+
+  const removePins = function () {
+    const pinsCollection = window.pins.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    for (let i = 0; i < pinsCollection.length; i++) {
+      pins.removeChild(pinsCollection[i]);
+    }
   };
 
   const showPins = function (advertisments) {
@@ -40,7 +49,7 @@
     for (let i = 0; i < 5; i++) {
       pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
     }
-    window.pins.pins.appendChild(pinFragment);
+    pins.appendChild(pinFragment);
   };
 
   mainPin.addEventListener(`mousedown`, function (evt) {
@@ -94,6 +103,7 @@
     xShift: xShift,
     yShift: yShift,
     renderPin: renderPin,
-    showPins: showPins
+    showPins: showPins,
+    removePins: removePins
   };
 })();

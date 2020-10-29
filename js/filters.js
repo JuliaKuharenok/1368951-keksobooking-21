@@ -54,37 +54,11 @@
       }
     
       const updatePins = function () {
-        const pinsCollection = window.pins.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-        for (let i = 0; i < pinsCollection.length; i++) {
-          window.pins.pins.removeChild(pinsCollection[i]);
-        }
-        console.log(advertisments.sort(function (left, right) {
-          return getRank(right) - getRank(left);
-        }));
+        window.pins.removePins();
         window.pins.showPins(advertisments.sort(function (left, right) {
           return getRank(right) - getRank(left);
         }));
       };
-
-
-   /*const updatePins = function () {
-
-        const similarAdvertisments = advertisments.filter(function (advertisment) {
-            return  advertisment.offer.type === housingType && advertisment.offer.rooms === rooms;
-            /*advertisment.offer.rooms === rooms && advertisment.offer.guests === guests
-        });
-        console.log(similarAdvertisments);
-
-        const pinsCollection = window.pins.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-        for (let i = 0; i < pinsCollection.length; i++) {
-          window.pins.pins.removeChild(pinsCollection[i]);
-        }
-
-        let filtredAdvertisments = similarAdvertisments;
-    
-        window.pins.showPins(filtredAdvertisments); 
-        console.log(filtredAdvertisments);
-    }; */
 
     housingTypeFilter.addEventListener(`change`, function () {
       housingType = housingTypeFilter.value;
@@ -118,7 +92,7 @@
 
     const successHandler = function (data) {
         advertisments = data;
-        //updatePins();
+        updatePins();
     };
 
     const errorHendler = function () {
@@ -127,22 +101,8 @@
 
     window.load(successHandler, errorHendler);
 
-            /*switch (price) {
-          case `middle`: 
-            if ((advertisment.offer.type > 10000) && (advertisment.offer.type < 50000)) {
-              rank +=4;
-            }
-            break;
-          case `low`:
-            if (advertisment.offer.type < 10000) {
-              rank +=4;
-            }
-            break;
-          case `high`:
-            if (advertisment.offer.type > 50000) {
-              rank +=4;
-            }
-            break;    
-        }*/
+window.filters = {
+  checkbox: checkbox
+};
 
 }) ();
