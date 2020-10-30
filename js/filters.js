@@ -96,13 +96,18 @@
     };
 
     const errorHendler = function () {
-        console.log(`error`);
+      const errorMessage = window.form.errorMessageTemplate.cloneNode(true);
+      console.log(errorMessage.querySelector(`.error__message`).textContent);
+      errorMessage.querySelector(`.error__message`).textContent = `Ошибка соеденинения`;
+      console.log(errorMessage.querySelector(`.error__message`).textContent);
+      window.pins.map.appendChild(errorMessage);
+      window.form.removeMessage(errorMessage);
     };
 
-    window.load(successHandler, errorHendler);
-
 window.filters = {
-  checkbox: checkbox
+  checkbox: checkbox,
+  errorHendler: errorHendler,
+  successHandler: successHandler
 };
 
 }) ();

@@ -27,7 +27,7 @@
 
     addressInput.value = (Math.round(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
 
-    window.load(window.pins.showPins, window.form.errorHendler);
+    window.load(window.filters.successHandler, window.filters.errorHendler);
   };
 
   const getPageDisabled = function () {

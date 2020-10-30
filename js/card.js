@@ -7,7 +7,9 @@
 
   const removeAdvertismentCard = function (advertismentCard) {
     advertismentCard.classList.add(`hidden`);
-    document.querySelector(`.map__pin--active`).classList.remove(`map__pin--active`);
+    if (document.querySelector(`.map__pin--active`)) {
+      document.querySelector(`.map__pin--active`).classList.remove(`map__pin--active`);
+    }
   };
 
   const renderCard = function (advertisment) {
@@ -45,7 +47,7 @@
       if (evt.key === `Escape`) {
         removeAdvertismentCard(advertismentCard);
       }
-    });
+    }, {once: true});
     return advertismentCard;
   };
 

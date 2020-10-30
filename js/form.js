@@ -92,12 +92,12 @@
   const removeMessage = function (messageType) {
     document.addEventListener(`click`, function () {
       window.pins.map.removeChild(messageType);
-    });
+    }, {once: true});
     document.addEventListener(`keydown`, function (evt) {
       if (evt.key === `Escape`) {
         window.pins.map.removeChild(messageType);
       }
-    });
+    }, {once: true});
   };
 
   const successHendler = function () {
@@ -120,6 +120,8 @@
 
   window.form = {
     form: form,
-    errorHendler: errorHendler
+    errorHendler: errorHendler,
+    errorMessageTemplate: errorMessageTemplate,
+    removeMessage: removeMessage
   };
 })();
