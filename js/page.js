@@ -1,16 +1,16 @@
 'use strict';
 
 (function () {
-  const photoDrop = window.form.form.querySelector(`.ad-form-header`);
-  const formFieldsets = window.form.form.querySelectorAll(`.ad-form__element`);
-  const addressInput = window.form.form.querySelector(`#address`);
+  const photoDrop = window.form.advertismentForm.querySelector(`.ad-form-header`);
+  const formFieldsets = window.form.advertismentForm.querySelectorAll(`.ad-form__element`);
+  const addressInput = window.form.advertismentForm.querySelector(`#address`);
   const filtersForm = document.querySelector(`.map__filters`);
   const filters = filtersForm.querySelectorAll(`.map__filter`);
 
 
   const getPageActive = function () {
     window.pins.map.classList.remove(`map--faded`);
-    window.form.form.classList.remove(`ad-form--disabled`);
+    window.form.advertismentForm.classList.remove(`ad-form--disabled`);
     photoDrop.removeAttribute(`disabled`);
 
     for (let i = 0; i < formFieldsets.length; i++) {
@@ -32,8 +32,8 @@
 
   const getPageDisabled = function () {
     window.pins.map.classList.add(`map--faded`);
-    window.form.form.classList.add(`ad-form--disabled`);
-    window.form.form.reset();
+    window.form.advertismentForm.classList.add(`ad-form--disabled`);
+    window.form.advertismentForm.reset();
     filtersForm.reset();
     photoDrop.setAttribute(`disabled`, `disabled`);
 

@@ -2,6 +2,7 @@
 
 (function () {
   const MAIN_PIN_TOP = 375;
+  const MAX_PINS_AMOUNT = 5;
 
   const map = document.querySelector(`.map`);
   const pins = map.querySelector(`.map__pins`);
@@ -34,6 +35,7 @@
         window.card.getAdvertismentCard(advertisment);
       }
     });
+    
     return pin;
   };
 
@@ -46,7 +48,7 @@
 
   const showPins = function (advertisments) {
     const pinFragment = document.createDocumentFragment();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < MAX_PINS_AMOUNT; i++) {
       pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
     }
     pins.appendChild(pinFragment);
@@ -76,6 +78,23 @@
 
         mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
+
+        if (startCoords.x < 120) {
+          mainPin.style.left = 0 + `px`;
+        }
+
+        if (startCoords.x > 1140) {
+          mainPin.style.left = 1140 + `px`;
+        }
+
+        if (startCoords.y < 130) {
+          mainPin.style.top = 130 + `px`;
+        }
+
+        if (startCoords.y > 630) {
+          mainPin.style.top = 630 + `px`;
+        }
+
       };
 
       const onMouseUp = function (upEvt) {

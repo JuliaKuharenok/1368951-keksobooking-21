@@ -1,15 +1,22 @@
 'use strict';
 
 (function () {
-  const form = document.querySelector(`.ad-form`);
-  const roomsInput = form.querySelector(`#room_number`);
-  const guestsInput = form.querySelector(`#capacity`);
-  const checkinTime = form.querySelector(`#timein`);
-  const checkoutTime = form.querySelector(`#timeout`);
-  const appartmentType = form.querySelector(`#type`);
-  const priceForNight = form.querySelector(`#price`);
-  const resetButton = form.querySelector(`.ad-form__reset`);
-  const submitButton = form.querySelector(`.ad-form__submit`);
+  const TIME_FIRST_OPTION = `12:00`;
+  const TIME_SECOND_OPTION = `13:00`;
+  const TIME_THIRD_OPTION = `14:00`;
+  const BUNGALOW_MIN_PRICE = `0`;
+  const FLAT_MIN_PRICE = `1000`;
+  const HOUSE_MIN_PRICE = `5000`;
+  const PALACE_MIN_PRICE = `10000`;
+
+  const advertismentForm = document.querySelector(`.ad-form`);
+  const roomsInput = advertismentForm.querySelector(`#room_number`);
+  const guestsInput = advertismentForm.querySelector(`#capacity`);
+  const checkinTime = advertismentForm.querySelector(`#timein`);
+  const checkoutTime = advertismentForm.querySelector(`#timeout`);
+  const appartmentType = advertismentForm.querySelector(`#type`);
+  const priceForNight = advertismentForm.querySelector(`#price`);
+  const resetButton = advertismentForm.querySelector(`.ad-form__reset`);
   const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
   const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
@@ -19,6 +26,7 @@
         if (guestsInput.value !== `1`) {
           guestsInput.setCustomValidity(`В одной комнате можно разместить не более одного гостя`);
           guestsInput.reportValidity();
+
           return;
         }
         break;
@@ -26,6 +34,7 @@
         if ((guestsInput.value === `0`) || (guestsInput.value === `3`)) {
           guestsInput.setCustomValidity(`В двух комнатах можно разместить не более двух гостей`);
           guestsInput.reportValidity();
+
           return;
         }
         break;
@@ -33,6 +42,7 @@
         if (guestsInput.value === `0`) {
           guestsInput.setCustomValidity(`В трех комнатах можно разместить до трех гостей`);
           guestsInput.reportValidity();
+
           return;
         }
         break;
@@ -40,6 +50,7 @@
         if (guestsInput.value !== `0`) {
           guestsInput.setCustomValidity(`Сто комнат не предназначены для гостей`);
           guestsInput.reportValidity();
+
           return;
         }
         break;
@@ -52,14 +63,14 @@
 
   checkinTime.addEventListener(`change`, function () {
     switch (checkinTime.value) {
-      case `12:00`:
-        checkoutTime.value = `12:00`;
+      case TIME_FIRST_OPTION:
+        checkoutTime.value = TIME_FIRST_OPTION;
         break;
-      case `13:00`:
-        checkoutTime.value = `13:00`;
+      case TIME_SECOND_OPTION:
+        checkoutTime.value = TIME_SECOND_OPTION;
         break;
-      case `14:00`:
-        checkoutTime.value = `14:00`;
+      case TIME_THIRD_OPTION:
+        checkoutTime.value = TIME_THIRD_OPTION;
         break;
     }
   });
@@ -67,20 +78,20 @@
   appartmentType.addEventListener(`change`, function () {
     switch (appartmentType.value) {
       case `bungalow`:
-        priceForNight.min = `0`;
-        priceForNight.placeholder = `0`;
+        priceForNight.min = BUNGALOW_MIN_PRICE;
+        priceForNight.placeholder = BUNGALOW_MIN_PRICE;
         break;
       case `flat`:
-        priceForNight.min = `1000`;
-        priceForNight.placeholder = `1000`;
+        priceForNight.min = FLAT_MIN_PRICE;
+        priceForNight.placeholder = FLAT_MIN_PRICE;
         break;
       case `house`:
-        priceForNight.min = `5000`;
-        priceForNight.placeholder = `5000`;
+        priceForNight.min = HOUSE_MIN_PRICE;
+        priceForNight.placeholder = HOUSE_MIN_PRICE;
         break;
       case `palace`:
-        priceForNight.min = `10000`;
-        priceForNight.placeholder = `10000`;
+        priceForNight.min = PALACE_MIN_PRICE;
+        priceForNight.placeholder = PALACE_MIN_PRICE;
         break;
     }
   });
@@ -113,13 +124,13 @@
     removeMessage(errorMessage);
   };
 
-  form.addEventListener(`submit`, (evt) => {
+  advertismentForm.addEventListener(`submit`, (evt) => {
     window.upload(new FormData(form), successHendler, errorHendler);
     evt.preventDefault();
   });
 
   window.form = {
-    form: form,
+    advertismentForm: advertismentForm,
     errorHendler: errorHendler,
     errorMessageTemplate: errorMessageTemplate,
     removeMessage: removeMessage

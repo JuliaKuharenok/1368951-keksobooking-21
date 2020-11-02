@@ -7,6 +7,8 @@
     let rooms;
     let guests;
     let neededFeatures = [];
+    const LOW_PRICE = 10000;
+    const HIGH_PRICE = 50000;
 
     const housingTypeFilter = document.querySelector(`#housing-type`);
     const priceFilter = document.querySelector(`#housing-price`);
@@ -22,17 +24,17 @@
         }
         switch (price) {
           case `low`:
-            if (advertisment.offer.price < 10000) {
+            if (advertisment.offer.price < LOW_PRICE) {
               rank += 4;
             }
             break;
           case `high`:
-            if (advertisment.offer.price > 50000) {
+            if (advertisment.offer.price > HIGH_PRICE) {
               rank += 4;
             }
             break;
           case `middle`:
-            if ((advertisment.offer.price >= 10000) && (advertisment.offer.price <= 50000)) {
+            if ((advertisment.offer.price >= LOW_PRICE) && (advertisment.offer.price <= HIGH_PRICE)) {
               rank += 4;
             }
             break;
@@ -50,12 +52,14 @@
             }
           }
         }
+
         return rank;
       }
     
       const updatePins = function () {
         window.pins.removePins();
         window.pins.showPins(advertisments.sort(function (left, right) {
+          
           return getRank(right) - getRank(left);
         }));
       };
@@ -97,9 +101,7 @@
 
     const errorHendler = function () {
       const errorMessage = window.form.errorMessageTemplate.cloneNode(true);
-      console.log(errorMessage.querySelector(`.error__message`).textContent);
       errorMessage.querySelector(`.error__message`).textContent = `Ошибка соеденинения`;
-      console.log(errorMessage.querySelector(`.error__message`).textContent);
       window.pins.map.appendChild(errorMessage);
       window.form.removeMessage(errorMessage);
     };
