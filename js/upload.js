@@ -1,6 +1,5 @@
 'use strict';
 
-(function () {
   const URL = `https://21.javascript.pages.academy/keksobooking`;
   const StatusCode = {
     OK: 200
@@ -14,11 +13,10 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }
     });
 
     xhr.open(`POST`, URL);
     xhr.send(data);
   };
-})();

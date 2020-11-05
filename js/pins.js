@@ -1,6 +1,5 @@
 'use strict';
 
-(function () {
   const MAIN_PIN_TOP = 375;
   const MAX_PINS_AMOUNT = 5;
 
@@ -17,7 +16,7 @@
 
   if (document.documentElement.clientWidth < 1200) {
     mainPinLeft = Math.round((document.documentElement.clientWidth / 2) - xShiftMain);
-  } 
+  }
 
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
@@ -35,15 +34,15 @@
         window.card.getAdvertismentCard(advertisment);
       }
     });
-    
+
     return pin;
   };
 
   const removePins = function () {
     const pinsCollection = window.pins.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-    for (let i = 0; i < pinsCollection.length; i++) {
-      pins.removeChild(pinsCollection[i]);
-    }
+    pinsCollection.forEach(function (pinsCollectionElement) {
+      pins.removeChild(pinsCollectionElement);
+    });
   };
 
   const showPins = function (advertisments) {
@@ -125,4 +124,3 @@
     showPins: showPins,
     removePins: removePins
   };
-})();

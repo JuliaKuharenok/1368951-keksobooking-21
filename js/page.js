@@ -1,6 +1,5 @@
 'use strict';
 
-(function () {
   const photoDrop = window.form.advertismentForm.querySelector(`.ad-form-header`);
   const formFieldsets = window.form.advertismentForm.querySelectorAll(`.ad-form__element`);
   const addressInput = window.form.advertismentForm.querySelector(`#address`);
@@ -13,17 +12,17 @@
     window.form.advertismentForm.classList.remove(`ad-form--disabled`);
     photoDrop.removeAttribute(`disabled`);
 
-    for (let i = 0; i < formFieldsets.length; i++) {
-      formFieldsets[i].removeAttribute(`disabled`);
-    }
+    formFieldsets.forEach(function (formFieldset) {
+      formFieldset.removeAttribute(`disabled`);
+    });
 
-    for (let i = 0; i < filters.length; i++) {
-      filters[i].removeAttribute(`disabled`);
-    }
+    filters.forEach(function (filter) {
+      filter.removeAttribute(`disabled`);
+    });
 
-    for (let i = 0; i < window.filters.checkbox.length; i++) {
-      window.filters.checkbox[i].removeAttribute(`disabled`);
-    }
+    window.filters.checkbox.forEach(function (checkboxElement) {
+      checkboxElement.removeAttribute(`disabled`);
+    });
 
     addressInput.value = (Math.round(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
 
@@ -37,17 +36,17 @@
     filtersForm.reset();
     photoDrop.setAttribute(`disabled`, `disabled`);
 
-    for (let i = 0; i < formFieldsets.length; i++) {
-      formFieldsets[i].setAttribute(`disabled`, `disabled`);
-    }
+    formFieldsets.forEach(function (formFieldset) {
+      formFieldset.setAttribute(`disabled`, `disabled`);
+    });
 
-    for (let i = 0; i < filters.length; i++) {
-      filters[i].setAttribute(`disabled`, `disabled`);
-    }
+    filters.forEach(function (filter) {
+      filter.setAttribute(`disabled`, `disabled`);
+    });
 
-    for (let i = 0; i < window.filters.checkbox.length; i++) {
-      window.filters.checkbox[i].setAttribute(`disabled`, `disabled`);
-    }
+    window.filters.checkbox.forEach(function (checkboxElement) {
+      checkboxElement.setAttribute(`disabled`, `disabled`);
+    });
 
     window.pins.mainPin.style.left = window.pins.mainPinLeft + `px`;
     window.pins.mainPin.style.top = window.pins.MAIN_PIN_TOP + `px`;
@@ -55,9 +54,9 @@
 
     window.pins.removePins();
 
-    if (window.pins.map.querySelector('.map__card')) {
+    if (window.pins.map.querySelector(`.map__card`)) {
       window.card.removeAdvertismentCard(window.pins.map.querySelector(`.map__card`));
-    } 
+    }
   };
 
   getPageDisabled();
@@ -66,4 +65,3 @@
     getPageActive: getPageActive,
     getPageDisabled: getPageDisabled
   };
-})();

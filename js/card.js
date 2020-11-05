@@ -1,6 +1,5 @@
 'use strict';
 
-(function () {
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
   const cardFragment = document.createDocumentFragment();
 
@@ -9,6 +8,36 @@
     advertismentCard.classList.add(`hidden`);
     if (document.querySelector(`.map__pin--active`)) {
       document.querySelector(`.map__pin--active`).classList.remove(`map__pin--active`);
+    }
+  };
+
+  const showFeatures = function (advertismentCard, advertisment) {
+    const features = advertismentCard.querySelectorAll(`.popup__feature`);
+    const realFeatures = advertisment.offer.features;
+    features.forEach(function (feature) {
+      feature.classList.add(`hidden`);
+    });
+    realFeatures.forEach(function (realFeature) {
+      const feature = document.createElement(`li`);
+      feature.className = `popup__feature popup__feature--` + realFeature;
+      advertismentCard.querySelector(`.popup__features`).appendChild(feature);
+    });
+  };
+
+  const showPhotos = function (advertismentCard, advertisment) {
+    if (advertisment.offer.photos.length === 0) {
+      advertismentCard.querySelector(`.popup__photo`).classList.add(`hidden`);
+    } else {
+      advertismentCard.querySelector(`.popup__photo`).src = advertisment.offer.photos[0];
+      for (let i = 1; i < advertisment.offer.photos.length; i++) {
+        const photo = document.createElement(`img`);
+        photo.className = `popup__photo`;
+        photo.src = advertisment.offer.photos[i];
+        photo.width = `45`;
+        photo.height = `40`;
+        photo.alt = `Фотография жилья`;
+        advertismentCard.querySelector(`.popup__photos`).appendChild(photo);
+      }
     }
   };
 
@@ -24,37 +53,12 @@
     }
     advertismentCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advertisment.offer.checkin + `, выезд до ` + advertisment.offer.checkout;
 
-    const features = advertismentCard.querySelectorAll(`.popup__feature`);
-    console.log(features);
-    const realFeatures = advertisment.offer.features;
-    console.log(realFeatures);
-     for (let i = 0; i < features.length; i++) {
-      for (let j = 0; j < realFeatures.length; j++) {
-        if (!features[i].classList.contains(`popup__feature--` + realFeatures[j])) {
-          features[i].classList.add(`hidden`);
-        }
-      }
-    }
-
-    /*if (!features[2].classList.contains(`popup__feature--` + realFeatures[2])) {
-      console.log(features[2]);
-    }*/
+    showFeatures(advertismentCard, advertisment);
 
     advertismentCard.querySelector(`.popup__description`).textContent = advertisment.offer.description;
-    if (advertisment.offer.photos.length === 0) {
-      advertismentCard.querySelector(`.popup__photo`).classList.add(`hidden`);
-    } else {
-      advertismentCard.querySelector(`.popup__photo`).src = advertisment.offer.photos[0];
-      for (let i = 1; i < advertisment.offer.photos.length; i++) {
-        const photo = document.createElement(`img`);
-        photo.className = `popup__photo`;
-        photo.src = advertisment.offer.photos[i];
-        photo.width = `45`;
-        photo.height = `40`;
-        photo.alt = `Фотография жилья`;
-        advertismentCard.querySelector(`.popup__photos`).appendChild(photo);
-      }
-    }
+
+    showPhotos(advertismentCard, advertisment);
+
     advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
     advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
       removeAdvertismentCard(advertismentCard);
@@ -64,15 +68,15 @@
         removeAdvertismentCard(advertismentCard);
       }
     }, {once: true});
-    
+
     return advertismentCard;
   };
 
   const getAdvertismentCard = function (advertisment) {
     const previousCards = window.pins.map.querySelectorAll(`.map__card`);
-    for (let i = 0; i < previousCards.length; i++) {
-      removeAdvertismentCard(previousCards[i]);
-    }
+    previousCards.forEach(function (previousCard) {
+      removeAdvertismentCard(previousCard);
+    });
     cardFragment.appendChild(renderCard(advertisment));
     window.pins.pins.appendChild(cardFragment);
   };
@@ -81,5 +85,3 @@
     getAdvertismentCard: getAdvertismentCard,
     removeAdvertismentCard: removeAdvertismentCard
   };
-
-})();
