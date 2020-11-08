@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
   const MAIN_PIN_TOP = 375;
   const MAX_PINS_AMOUNT = 5;
 
@@ -124,3 +125,4 @@
     showPins: showPins,
     removePins: removePins
   };
+})();

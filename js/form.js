@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
   const TIME_FIRST_OPTION = `12:00`;
   const TIME_SECOND_OPTION = `13:00`;
   const TIME_THIRD_OPTION = `14:00`;
@@ -134,3 +135,4 @@
     errorMessageTemplate: errorMessageTemplate,
     removeMessage: removeMessage
   };
+})();

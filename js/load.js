@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
   const URL = `https://21.javascript.pages.academy/keksobooking/data`;
   const statusCode = {
     OK: 200
@@ -31,3 +32,4 @@
     xhr.open(`GET`, URL);
     xhr.send();
   };
+})();

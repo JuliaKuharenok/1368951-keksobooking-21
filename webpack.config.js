@@ -2,13 +2,13 @@ const path = require("path");
 
 module.exports = {
     entry: [
-        "./js/card.js",
-        "./js/filters.js",
-        "./js/form.js",
         "./js/load.js",
-        "./js/page.js",
+        "./js/upload.js",
+        "./js/form.js",
+        "./js/filters.js",
         "./js/pins.js",
-        "./js/upload.js"
+        "./js/card.js",
+        "./js/page.js"
     ],
     output: {
         filename: "bundle.js",

@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
   const photoDrop = window.form.advertismentForm.querySelector(`.ad-form-header`);
   const formFieldsets = window.form.advertismentForm.querySelectorAll(`.ad-form__element`);
   const addressInput = window.form.advertismentForm.querySelector(`#address`);
@@ -65,3 +66,4 @@
     getPageActive: getPageActive,
     getPageDisabled: getPageDisabled
   };
+})();

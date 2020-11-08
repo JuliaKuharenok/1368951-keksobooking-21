@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
   const LOW_PRICE = 10000;
   const HIGH_PRICE = 50000;
 
@@ -114,3 +115,5 @@
     errorHendler: errorHendler,
     successHandler: successHandler
   };
+
+})();

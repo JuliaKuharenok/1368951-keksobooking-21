@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
   const cardFragment = document.createDocumentFragment();
 
@@ -85,3 +86,5 @@
     getAdvertismentCard: getAdvertismentCard,
     removeAdvertismentCard: removeAdvertismentCard
   };
+
+})();
