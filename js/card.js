@@ -46,7 +46,7 @@
     const advertismentCard = cardTemplate.cloneNode(true);
     advertismentCard.querySelector(`.popup__title`).textContent = advertisment.offer.title;
     advertismentCard.querySelector(`.popup__text--address`).textContent = advertisment.offer.address;
-    advertismentCard.querySelector(`.popup__text--price`).textContent = advertisment.offer.price;
+    advertismentCard.querySelector(`.popup__text--price`).textContent = advertisment.offer.price + `\u20BD` + `/ночь`;
     advertismentCard.querySelector(`.popup__type`).textContent = advertisment.offer.type;
     advertismentCard.querySelector(`.popup__text--capacity`).textContent = advertisment.offer.rooms + ` комнаты для ` + advertisment.offer.guests + ` гостей`;
     if ((advertisment.offer.rooms === 0) || (advertisment.offer.guests === 0)) {

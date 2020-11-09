@@ -62,6 +62,9 @@
   };
 
   const updatePins = function () {
+    if (document.querySelector(`.map__card`)) {
+      window.card.removeAdvertismentCard(document.querySelector(`.map__card`));
+    }
     window.pins.removePins();
     window.pins.showPins(advertisments.sort(function (left, right) {
 

@@ -61,10 +61,15 @@
       let startCoords = {
         x: evt.clientX,
         y: evt.clientY
+
       };
+
+      let dragged = false;
 
       const onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
+
+        dragged = true;
 
         const shift = {
           x: startCoords.x - moveEvt.clientX,
@@ -80,11 +85,11 @@
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
 
         if (startCoords.x < 120) {
-          mainPin.style.left = 0 + `px`;
+          mainPin.style.left = 0 - xShiftMain + `px`;
         }
 
         if (startCoords.x > 1140) {
-          mainPin.style.left = 1140 + `px`;
+          mainPin.style.left = 1200 - xShiftMain + `px`;
         }
 
         if (startCoords.y < 130) {
@@ -102,12 +107,12 @@
 
         document.removeEventListener(`mousemove`, onMouseMove);
         document.removeEventListener(`mouseup`, onMouseUp);
-
-        window.page.getPageActive();
       };
 
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
+
+      window.page.getPageActive();
     }
   });
 
