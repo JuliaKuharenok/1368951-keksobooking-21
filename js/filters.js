@@ -66,10 +66,24 @@
       window.card.removeAdvertismentCard(document.querySelector(`.map__card`));
     }
     window.pins.removePins();
-    window.pins.showPins(advertisments.sort(function (left, right) {
+    advertisments = advertisments.sort(function (left, right) {
 
       return getRank(right) - getRank(left);
-    }));
+    });
+    console.log(advertisments);
+    let filtredAdvertisments = [];
+    for (let i = 1; i < advertisments.length; i++) {
+      if (getRank(advertisments[0]) === getRank(advertisments[i])) {
+        filtredAdvertisments.push(advertisments[i]);
+      }
+    }
+    filtredAdvertisments.push(advertisments[0]);
+    console.log(filtredAdvertisments);
+    window.pins.showPins(filtredAdvertisments);
+    /*window.pins.showPins(advertisments.sort(function (left, right) {
+
+      return getRank(right) - getRank(left);
+    }));*/
   };
 
   housingTypeFilter.addEventListener(`change`, function () {
