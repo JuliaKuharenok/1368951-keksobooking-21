@@ -19,6 +19,15 @@
     mainPinLeft = Math.round((document.documentElement.clientWidth / 2) - xShiftMain);
   }
 
+  let pinsAmount = 5;
+
+  const getPinsAmount = function (advertisment) {
+    if (advertisment.length < 5) {
+      pinsAmount = advertisment.length;
+    }
+    return pinsAmount;
+  }
+
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
     pin.style.left = advertisment.location.x + xShift + `px`;
@@ -48,7 +57,8 @@
 
   const showPins = function (advertisments) {
     const pinFragment = document.createDocumentFragment();
-    for (let i = 0; i < MAX_PINS_AMOUNT; i++) {
+    for (let i = 0; i < getPinsAmount(advertisments); i++) {
+      console.log(pinsAmount);
       pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
     }
     pins.appendChild(pinFragment);

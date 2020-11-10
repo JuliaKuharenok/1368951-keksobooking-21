@@ -61,6 +61,8 @@
     return rank;
   };
 
+  let filtredAdvertisments = [];
+
   const updatePins = function () {
     if (document.querySelector(`.map__card`)) {
       window.card.removeAdvertismentCard(document.querySelector(`.map__card`));
@@ -71,13 +73,13 @@
       return getRank(right) - getRank(left);
     });
     console.log(advertisments);
-    let filtredAdvertisments = [];
+    filtredAdvertisments = [];
+    filtredAdvertisments.push(advertisments[0]);
     for (let i = 1; i < advertisments.length; i++) {
       if (getRank(advertisments[0]) === getRank(advertisments[i])) {
         filtredAdvertisments.push(advertisments[i]);
       }
     }
-    filtredAdvertisments.push(advertisments[0]);
     console.log(filtredAdvertisments);
     window.pins.showPins(filtredAdvertisments);
     /*window.pins.showPins(advertisments.sort(function (left, right) {
@@ -130,7 +132,8 @@
   window.filters = {
     checkbox: checkbox,
     errorHendler: errorHendler,
-    successHandler: successHandler
+    successHandler: successHandler,
+
   };
 
 })();
