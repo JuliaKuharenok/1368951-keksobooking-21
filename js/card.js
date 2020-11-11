@@ -6,7 +6,7 @@
 
 
   const removeAdvertismentCard = function (advertismentCard) {
-    advertismentCard.classList.add(`hidden`);
+    window.pins.pins.removeChild(advertismentCard);
     if (document.querySelector(`.map__pin--active`)) {
       document.querySelector(`.map__pin--active`).classList.remove(`map__pin--active`);
     }

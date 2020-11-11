@@ -2,7 +2,6 @@
 
 (function () {
   const MAIN_PIN_TOP = 375;
-  const MAX_PINS_AMOUNT = 5;
 
   const map = document.querySelector(`.map`);
   const pins = map.querySelector(`.map__pins`);
@@ -14,12 +13,11 @@
   const yShift = map.querySelector(`.map__pin`).offsetHeight;
 
   let mainPinLeft = 570;
+  let pinsAmount = 5;
 
   if (document.documentElement.clientWidth < 1200) {
     mainPinLeft = Math.round((document.documentElement.clientWidth / 2) - xShiftMain);
   }
-
-  let pinsAmount = 5;
 
   const getPinsAmount = function (advertisment) {
     if (advertisment.length < 5) {
@@ -30,8 +28,8 @@
 
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
-    pin.style.left = advertisment.location.x + xShift + `px`;
-    pin.style.top = advertisment.location.y + yShift + `px`;
+    pin.style.left = advertisment.location.x - xShift + `px`;
+    pin.style.top = advertisment.location.y - yShift + `px`;
     pin.querySelector(`img`).src = advertisment.author.avatar;
     pin.querySelector(`img`).alt = advertisment.offer.title;
     pin.addEventListener(`click`, function () {
@@ -74,12 +72,8 @@
 
       };
 
-      let dragged = false;
-
       const onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
-
-        dragged = true;
 
         const shift = {
           x: startCoords.x - moveEvt.clientX,
@@ -103,11 +97,11 @@
         }
 
         if (startCoords.y < 130) {
-          mainPin.style.top = 130 + `px`;
+          mainPin.style.top = 130 - yShiftMain + `px`;
         }
 
         if (startCoords.y > 630) {
-          mainPin.style.top = 630 + `px`;
+          mainPin.style.top = 630 - yShiftMain + `px`;
         }
 
       };
@@ -115,14 +109,16 @@
       const onMouseUp = function (upEvt) {
         upEvt.preventDefault();
 
+        window.page.updateAddress();
+        
         document.removeEventListener(`mousemove`, onMouseMove);
         document.removeEventListener(`mouseup`, onMouseUp);
       };
 
+      window.page.getPageActive(); 
+           
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
-
-      window.page.getPageActive();
     }
   });
 

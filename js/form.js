@@ -99,7 +99,7 @@
   const updatePriceValidity = function () {
     switch (appartmentType.value) {
       case `bungalow`:
-        if (priceForNight.value < `0`) {
+        if (priceForNight.value < 0) {
           priceForNight.setCustomValidity(`Цена не может быть меньше 0`);
           priceForNight.reportValidity();
 
@@ -107,7 +107,7 @@
         }
         break;
       case `flat`:
-        if (priceForNight.value < `1000`) {
+        if (priceForNight.value < 1000) {
           priceForNight.setCustomValidity(`Цена должна быть больше или равна 1000`);
           priceForNight.reportValidity();
 
@@ -115,7 +115,7 @@
         }
         break;
       case `house`:
-        if (priceForNight.value < `5000`) {
+        if (priceForNight.value < 5000) {
           priceForNight.setCustomValidity(`Цена должна быть больше или равна 5000`);
           priceForNight.reportValidity();
 
@@ -123,7 +123,7 @@
         }
         break;
       case `palace`:
-        if (priceForNight.value < `10000`) {
+        if (priceForNight.value < 10000) {
           priceForNight.setCustomValidity(`Цена должна быть больше или равна 10000`);
           priceForNight.reportValidity();
 
@@ -134,7 +134,7 @@
     priceForNight.setCustomValidity(``);
   };
 
-  priceForNight.addEventListener(`change`, updatePriceValidity);
+  priceForNight.addEventListener(`input`, updatePriceValidity);
   appartmentType.addEventListener(`change`, updatePriceValidity);
 
   resetButton.addEventListener(`click`, function () {
