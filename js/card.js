@@ -60,15 +60,18 @@
 
     showPhotos(advertismentCard, advertisment);
 
-    advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
-    advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
-      removeAdvertismentCard(advertismentCard);
-    });
-    document.addEventListener(`keydown`, function (evt) {
+    const onEscPress = function (evt) {
       if (evt.key === `Escape`) {
         removeAdvertismentCard(advertismentCard);
       }
-    }, {once: true});
+    };
+
+    advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
+    document.addEventListener(`keydown`, onEscPress, {once: true});
+    advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
+      removeAdvertismentCard(advertismentCard);
+      document.removeEventListener('keydown', onEscPress);
+    });
 
     return advertismentCard;
   };

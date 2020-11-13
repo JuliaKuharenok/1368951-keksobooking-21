@@ -72,7 +72,6 @@
 
       return getRank(right) - getRank(left);
     });
-    console.log(advertisments);
     filtredAdvertisments = [];
     filtredAdvertisments.push(advertisments[0]);
     for (let i = 1; i < advertisments.length; i++) {
@@ -80,12 +79,7 @@
         filtredAdvertisments.push(advertisments[i]);
       }
     }
-    console.log(filtredAdvertisments);
     window.pins.showPins(filtredAdvertisments);
-    /*window.pins.showPins(advertisments.sort(function (left, right) {
-
-      return getRank(right) - getRank(left);
-    }));*/
   };
 
   housingTypeFilter.addEventListener(`change`, function () {

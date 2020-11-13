@@ -32,9 +32,10 @@
     pin.style.top = advertisment.location.y - yShift + `px`;
     pin.querySelector(`img`).src = advertisment.author.avatar;
     pin.querySelector(`img`).alt = advertisment.offer.title;
+    const activePin = pins.querySelector(`.map__pin--active`);
     pin.addEventListener(`click`, function () {
-      pin.classList.add(`map__pin--active`);
       window.card.getAdvertismentCard(advertisment);
+      pin.classList.add(`map__pin--active`);
     });
     pin.addEventListener(`keydown`, function (evt) {
       if (evt.key === `Enter`) {
@@ -56,7 +57,6 @@
   const showPins = function (advertisments) {
     const pinFragment = document.createDocumentFragment();
     for (let i = 0; i < getPinsAmount(advertisments); i++) {
-      console.log(pinsAmount);
       pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
     }
     pins.appendChild(pinFragment);
