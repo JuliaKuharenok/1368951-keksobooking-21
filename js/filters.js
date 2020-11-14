@@ -61,12 +61,25 @@
     return rank;
   };
 
+  let filtredAdvertisments = [];
+
   const updatePins = function () {
+    if (document.querySelector(`.map__card`)) {
+      window.card.removeAdvertismentCard(document.querySelector(`.map__card`));
+    }
     window.pins.removePins();
-    window.pins.showPins(advertisments.sort(function (left, right) {
+    advertisments = advertisments.sort(function (left, right) {
 
       return getRank(right) - getRank(left);
-    }));
+    });
+    filtredAdvertisments = [];
+    filtredAdvertisments.push(advertisments[0]);
+    for (let i = 1; i < advertisments.length; i++) {
+      if (getRank(advertisments[0]) === getRank(advertisments[i])) {
+        filtredAdvertisments.push(advertisments[i]);
+      }
+    }
+    window.pins.showPins(filtredAdvertisments);
   };
 
   housingTypeFilter.addEventListener(`change`, function () {
@@ -113,7 +126,8 @@
   window.filters = {
     checkbox: checkbox,
     errorHendler: errorHendler,
-    successHandler: successHandler
+    successHandler: successHandler,
+
   };
 
 })();

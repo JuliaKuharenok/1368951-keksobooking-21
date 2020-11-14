@@ -2,7 +2,6 @@
 
 (function () {
   const MAIN_PIN_TOP = 375;
-  const MAX_PINS_AMOUNT = 5;
 
   const map = document.querySelector(`.map`);
   const pins = map.querySelector(`.map__pins`);
@@ -14,20 +13,32 @@
   const yShift = map.querySelector(`.map__pin`).offsetHeight;
 
   let mainPinLeft = 570;
+  let pinsAmount = 5;
 
   if (document.documentElement.clientWidth < 1200) {
     mainPinLeft = Math.round((document.documentElement.clientWidth / 2) - xShiftMain);
   }
 
+  const getPinsAmount = function (advertisment) {
+    if (advertisment.length < 5) {
+      pinsAmount = advertisment.length;
+    }
+    return pinsAmount;
+  }
+
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
-    pin.style.left = advertisment.location.x + xShift + `px`;
-    pin.style.top = advertisment.location.y + yShift + `px`;
+    pin.style.left = advertisment.location.x - xShift + `px`;
+    pin.style.top = advertisment.location.y - yShift + `px`;
     pin.querySelector(`img`).src = advertisment.author.avatar;
     pin.querySelector(`img`).alt = advertisment.offer.title;
     pin.addEventListener(`click`, function () {
-      pin.classList.add(`map__pin--active`);
+      const previousCard = window.pins.map.querySelector(`.map__card`);
+      if (previousCard) {
+        window.card.removeAdvertismentCard(previousCard);
+      }
       window.card.getAdvertismentCard(advertisment);
+      pin.classList.add(`map__pin--active`);
     });
     pin.addEventListener(`keydown`, function (evt) {
       if (evt.key === `Enter`) {
@@ -48,7 +59,7 @@
 
   const showPins = function (advertisments) {
     const pinFragment = document.createDocumentFragment();
-    for (let i = 0; i < MAX_PINS_AMOUNT; i++) {
+    for (let i = 0; i < getPinsAmount(advertisments); i++) {
       pinFragment.appendChild(window.pins.renderPin(advertisments[i]));
     }
     pins.appendChild(pinFragment);
@@ -61,6 +72,7 @@
       let startCoords = {
         x: evt.clientX,
         y: evt.clientY
+
       };
 
       const onMouseMove = function (moveEvt) {
@@ -80,19 +92,19 @@
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
 
         if (startCoords.x < 120) {
-          mainPin.style.left = 0 + `px`;
+          mainPin.style.left = 0 - xShiftMain + `px`;
         }
 
         if (startCoords.x > 1140) {
-          mainPin.style.left = 1140 + `px`;
+          mainPin.style.left = 1200 - xShiftMain + `px`;
         }
 
         if (startCoords.y < 130) {
-          mainPin.style.top = 130 + `px`;
+          mainPin.style.top = 130 - yShiftMain + `px`;
         }
 
         if (startCoords.y > 630) {
-          mainPin.style.top = 630 + `px`;
+          mainPin.style.top = 630 - yShiftMain + `px`;
         }
 
       };
@@ -100,12 +112,14 @@
       const onMouseUp = function (upEvt) {
         upEvt.preventDefault();
 
+        window.page.updateAddress();
+        
         document.removeEventListener(`mousemove`, onMouseMove);
         document.removeEventListener(`mouseup`, onMouseUp);
-
-        window.page.getPageActive();
       };
 
+      window.page.getPageActive(); 
+           
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
     }

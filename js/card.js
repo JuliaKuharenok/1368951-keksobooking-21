@@ -6,7 +6,7 @@
 
 
   const removeAdvertismentCard = function (advertismentCard) {
-    advertismentCard.classList.add(`hidden`);
+    window.pins.pins.removeChild(advertismentCard);
     if (document.querySelector(`.map__pin--active`)) {
       document.querySelector(`.map__pin--active`).classList.remove(`map__pin--active`);
     }
@@ -46,7 +46,7 @@
     const advertismentCard = cardTemplate.cloneNode(true);
     advertismentCard.querySelector(`.popup__title`).textContent = advertisment.offer.title;
     advertismentCard.querySelector(`.popup__text--address`).textContent = advertisment.offer.address;
-    advertismentCard.querySelector(`.popup__text--price`).textContent = advertisment.offer.price;
+    advertismentCard.querySelector(`.popup__text--price`).textContent = advertisment.offer.price + `\u20BD` + `/ночь`;
     advertismentCard.querySelector(`.popup__type`).textContent = advertisment.offer.type;
     advertismentCard.querySelector(`.popup__text--capacity`).textContent = advertisment.offer.rooms + ` комнаты для ` + advertisment.offer.guests + ` гостей`;
     if ((advertisment.offer.rooms === 0) || (advertisment.offer.guests === 0)) {
@@ -60,24 +60,27 @@
 
     showPhotos(advertismentCard, advertisment);
 
-    advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
-    advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
-      removeAdvertismentCard(advertismentCard);
-    });
-    document.addEventListener(`keydown`, function (evt) {
+    const onEscPress = function (evt) {
       if (evt.key === `Escape`) {
         removeAdvertismentCard(advertismentCard);
       }
-    }, {once: true});
+    };
+
+    advertismentCard.querySelector(`.popup__avatar`).src = advertisment.author.avatar;
+    document.addEventListener(`keydown`, onEscPress, {once: true});
+    advertismentCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
+      removeAdvertismentCard(advertismentCard);
+      document.removeEventListener('keydown', onEscPress);
+    });
 
     return advertismentCard;
   };
 
   const getAdvertismentCard = function (advertisment) {
-    const previousCards = window.pins.map.querySelectorAll(`.map__card`);
+    /*const previousCards = window.pins.map.querySelectorAll(`.map__card`);
     previousCards.forEach(function (previousCard) {
       removeAdvertismentCard(previousCard);
-    });
+    });*/
     cardFragment.appendChild(renderCard(advertisment));
     window.pins.pins.appendChild(cardFragment);
   };

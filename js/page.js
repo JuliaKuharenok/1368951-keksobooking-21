@@ -7,6 +7,10 @@
   const filtersForm = document.querySelector(`.map__filters`);
   const filters = filtersForm.querySelectorAll(`.map__filter`);
 
+  const updateAddress = function () {
+    addressInput.value = (Math.floor(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
+  }
+
 
   const getPageActive = function () {
     window.pins.map.classList.remove(`map--faded`);
@@ -24,8 +28,6 @@
     window.filters.checkbox.forEach(function (checkboxElement) {
       checkboxElement.removeAttribute(`disabled`);
     });
-
-    addressInput.value = (Math.round(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
 
     window.load(window.filters.successHandler, window.filters.errorHendler);
   };
@@ -64,6 +66,7 @@
 
   window.page = {
     getPageActive: getPageActive,
-    getPageDisabled: getPageDisabled
+    getPageDisabled: getPageDisabled,
+    updateAddress: updateAddress
   };
 })();

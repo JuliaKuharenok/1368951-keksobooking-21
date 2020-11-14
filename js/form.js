@@ -96,6 +96,47 @@
     }
   });
 
+  const updatePriceValidity = function () {
+    switch (appartmentType.value) {
+      case `bungalow`:
+        if (priceForNight.value < 0) {
+          priceForNight.setCustomValidity(`Цена не может быть меньше 0`);
+          priceForNight.reportValidity();
+
+          return;
+        }
+        break;
+      case `flat`:
+        if (priceForNight.value < 1000) {
+          priceForNight.setCustomValidity(`Цена должна быть больше или равна 1000`);
+          priceForNight.reportValidity();
+
+          return;
+        }
+        break;
+      case `house`:
+        if (priceForNight.value < 5000) {
+          priceForNight.setCustomValidity(`Цена должна быть больше или равна 5000`);
+          priceForNight.reportValidity();
+
+          return;
+        }
+        break;
+      case `palace`:
+        if (priceForNight.value < 10000) {
+          priceForNight.setCustomValidity(`Цена должна быть больше или равна 10000`);
+          priceForNight.reportValidity();
+
+          return;
+        }
+        break;
+    }
+    priceForNight.setCustomValidity(``);
+  };
+
+  priceForNight.addEventListener(`input`, updatePriceValidity);
+  appartmentType.addEventListener(`change`, updatePriceValidity);
+
   resetButton.addEventListener(`click`, function () {
     window.page.getPageDisabled();
   });
