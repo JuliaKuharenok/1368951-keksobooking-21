@@ -77,10 +77,10 @@
   };
 
   const getAdvertismentCard = function (advertisment) {
-    const previousCards = window.pins.map.querySelectorAll(`.map__card`);
+    /*const previousCards = window.pins.map.querySelectorAll(`.map__card`);
     previousCards.forEach(function (previousCard) {
       removeAdvertismentCard(previousCard);
-    });
+    });*/
     cardFragment.appendChild(renderCard(advertisment));
     window.pins.pins.appendChild(cardFragment);
   };
