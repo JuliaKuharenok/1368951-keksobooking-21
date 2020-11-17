@@ -9,8 +9,7 @@
 
   const updateAddress = function () {
     addressInput.value = (Math.floor(window.pins.mainPin.offsetLeft + window.pins.xShiftMain)) + ` , ` + (window.pins.mainPin.offsetTop + window.pins.yShiftMain);
-  }
-
+  };
 
   const getPageActive = function () {
     window.pins.map.classList.remove(`map--faded`);
