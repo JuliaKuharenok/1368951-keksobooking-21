@@ -24,7 +24,7 @@
       pinsAmount = advertisment.length;
     }
     return pinsAmount;
-  }
+  };
 
   const renderPin = function (advertisment) {
     const pin = pinTemplate.cloneNode(true);
@@ -78,6 +78,9 @@
       const onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
 
+        const scrollTop = window.pageYOffset;
+        const mapCoords = map.getBoundingClientRect();
+
         const shift = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY
@@ -91,19 +94,19 @@
         mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
 
-        if (startCoords.x < 120) {
+        if (startCoords.x < mapCoords.left) {
           mainPin.style.left = 0 - xShiftMain + `px`;
         }
 
-        if (startCoords.x > 1140) {
+        if (startCoords.x > mapCoords.right) {
           mainPin.style.left = 1200 - xShiftMain + `px`;
         }
 
-        if (startCoords.y < 130) {
+        if (startCoords.y < 130 - scrollTop) {
           mainPin.style.top = 130 - yShiftMain + `px`;
         }
 
-        if (startCoords.y > 630) {
+        if (startCoords.y > (630 - scrollTop)) {
           mainPin.style.top = 630 - yShiftMain + `px`;
         }
 
@@ -113,13 +116,13 @@
         upEvt.preventDefault();
 
         window.page.updateAddress();
-        
+
         document.removeEventListener(`mousemove`, onMouseMove);
         document.removeEventListener(`mouseup`, onMouseUp);
       };
 
-      window.page.getPageActive(); 
-           
+      window.page.getPageActive();
+
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
     }
